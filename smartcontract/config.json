@@ -1,0 +1,9 @@
+{
+   "dev": {},
+   "bsctest": {
+      "AgriToken": "0xca34E3E65aAFEB3b19Eece1C5F5c498dE0E81C7F",
+      "Ico": "0x457673f2E2041D0E9fa6212F1FC46528CBA29CCF",
+      "SupplyChain": "0xCCA5FE81065e314EE86B2c571A77F3407A760A03"
+   },
+   "main": {}
+}
