@@ -76,21 +76,32 @@ const StatisticalTPT = () => {
       try {
          const supplychainContract = new SupplyChainContract();
          const response = await supplychainContract.getProducts();
-         const productFilted = response.filter((data: any) => (data.productState === StateProduct.SoldByAgent && data.thirdPartyDetails
-            .thirdPartyCode === currentUser?.code));
+         const productFilted = response.filter((data: any) => (data.productState === StateProduct.SoldByAgent && data.agentDetails
+            .agentCode === currentUser?.code));
          setProductsLength(productFilted.length);
       } catch (error) {
          console.log(error);
       }
    }
 
+   const getProductsReceived = async () => {
+      try {
+         const supplychainContract = new SupplyChainContract();
+         const response = await supplychainContract.getProducts();
+         const productFilted = response.filter((data: any) => (data.productState === StateProduct.PurchasedByAgent && data.agentDetails
+            .agentCode === currentUser?.code));
+         setProductsReceive(productFilted.length);
+      } catch (error) {
+         console.log(error);
+      }
+   }
 
    const getProductsOrdered = async () => {
       try {
          const supplychainContract = new SupplyChainContract();
          const response = await supplychainContract.getProducts();
-         const productFilted = response.filter((data: any) => (data.productState === StateProduct.PurchasedByCustomer && data.thirdPartyDetails
-            .thirdParty === currentUser?.addressWallet));
+         const productFilted = response.filter((data: any) => (data.productState === StateProduct.PurchasedByCustomer && data.agentDetails
+            .agent === currentUser?.addressWallet));
          setProductsOrdered(productFilted.length);
       } catch (error) {
          console.log(error);
@@ -101,8 +112,8 @@ const StatisticalTPT = () => {
       try {
          const supplychainContract = new SupplyChainContract();
          const response = await supplychainContract.getProducts();
-         const productFilted = response.filter((data: any) => (data.productState === StateProduct.ReceivedByCustomer && data.thirdPartyDetails
-            .thirdPartyCode === currentUser?.code));
+         const productFilted = response.filter((data: any) => (data.productState === StateProduct.ReceivedByCustomer && data.agentDetails
+            .agentCode === currentUser?.code));
          setProductsSold(productFilted.length);
       } catch (error) {
          console.log(error);
@@ -115,6 +126,7 @@ const StatisticalTPT = () => {
          getProductsOrdered(); // ordered
          getProductsSold();
          getStatistical();
+         getProductsReceived();
       }
    }, [currentUser?.code]);
 
@@ -124,7 +136,7 @@ const StatisticalTPT = () => {
             <div className='flex flex-col gap-1.5 bg-white w-56 px-6 py-4 rounded-lg'>
                <div className='bg-[#FEC90F] p-4 rounded-full mx-auto ml-auto'><BsBoxSeam color='white' className='p-0.5' size={30} /></div>
                <span className='text-333 font-bold text-xl'>{products}</span>
-               <span className='text-444'>Sản phẩm</span>
+               <span className='text-444'>Sản phẩm đang bán</span>
             </div>
             <div className='flex flex-col gap-1.5 bg-white w-56 px-6 py-4 rounded-lg'>
                <div className='bg-[#FFF4E5] p-4 rounded-full mx-auto ml-auto'><FiBarChart color='#E46A76' className='p-0.5' size={30} /></div>

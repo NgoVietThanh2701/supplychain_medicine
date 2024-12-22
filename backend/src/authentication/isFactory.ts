@@ -6,7 +6,7 @@ import { roles } from "../utils/data";
 export default function isFactory(req: any, res: Response, next: NextFunction) {
    const { role } = req.user;
    if (role !== roles[roles.factory]) {
-      return res.status(HttpStatusCode.BAD_REQUEST).json(DataResponse(true, MessageResponse.NOT_FARMER));
+      return res.status(HttpStatusCode.BAD_REQUEST).json(DataResponse(true, MessageResponse.NOT_FACTORY));
    }
    next();
 }

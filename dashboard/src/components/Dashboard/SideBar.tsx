@@ -2,7 +2,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { LiaGripfire } from "react-icons/lia";
 import { MdOutlineCancel } from 'react-icons/md';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
-import { sideBarAdmin, sideBarDeliveryHub, sideBarFarmer, sideBarThirdParty } from '../../utils/data/sideBar';
+import { sideBarAdmin, sideBarDeliveryHub, sideBarFactory, sideBarAgent } from '../../utils/data/sideBar';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetAuth } from '../../features/authSlice';
@@ -39,7 +39,7 @@ const SideBar = () => {
             <>
                <div className='flex justify-between items-center'>
                   <Link to='/dashboard' onClick={handleCloseSidebar} className='items-center gap-2 ml-3 mt-4 flex'>
-                     <LiaGripfire size={38} className='text-green' /><span className='text-primary text-xl font-bold'>Agrichain</span>
+                     <LiaGripfire size={38} className='text-green' /><span className='text-primary text-xl font-bold'>Primary city</span>
                   </Link>
                   <TooltipComponent content='Menu' position='BottomCenter'>
                      <button type='button' onClick={() => setActiveMenu((prevActiveMenu) => !prevActiveMenu)}
@@ -66,7 +66,7 @@ const SideBar = () => {
                      </>}
                   {currentUser?.role === roles[roles.factory] &&
                      <>
-                        {sideBarFarmer.map((item) => (
+                        {sideBarFactory.map((item) => (
                            <div key={item.title}>
                               <p className='text-gray-400 m-3 mt-4 uppercase'> {item.title}</p>
                               {item.links.map((link) => (
@@ -81,7 +81,7 @@ const SideBar = () => {
                      </>}
                   {currentUser?.role === roles[roles.agent] &&
                      <>
-                        {sideBarThirdParty.map((item) => (
+                        {sideBarAgent.map((item) => (
                            <div key={item.title}>
                               <p className='text-gray-400 m-3 mt-4 uppercase'> {item.title}</p>
                               {item.links.map((link) => (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import ProductTPT from '../../../components/Dashboard/thirdparty/ProductTPT'
+import ProductAgent from '../../../components/Dashboard/agent/ProductAgent'
 import Pagination from '../../../components/Pagination'
 import SupplyChainContract from '../../../contracts/SupplyChainContract'
 import StateProduct from '../../../utils/data/statesProduct'
@@ -49,7 +49,7 @@ const ShopProductTPT = () => {
 
    return (
       <div>
-         {products.length > 0 ? <Pagination itemsPerPage={10} data={products} Component={ProductTPT} getProducts={getProducts} /> :
+         {products.length > 0 ? <Pagination itemsPerPage={10} data={products} Component={ProductAgent} getProducts={getProducts} /> :
             <div className='flex flex-col gap-3 items-center justify-center mt-[170px]'>
                <img src={nodata_img} />
                Không có sản phẩm nào!

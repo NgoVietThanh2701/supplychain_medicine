@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import DataTable from '../../../components/Dashboard/DataTable';
 import { apideleteCategory, apigetCategories } from '../../../services/factory';
-import AddCategory from '../../../components/Dashboard/farmer/AddCategory';
+import AddCategory from '../../../components/Dashboard/factory/AddCategory';
 import { useStateContext } from '../../../contexts/ContextProvider';
 
 const nodata_img = require('../../../utils/images/no-data.jpg');

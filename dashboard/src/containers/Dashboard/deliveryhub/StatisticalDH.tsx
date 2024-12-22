@@ -66,7 +66,7 @@ const StatisticalDH = () => {
          const supplychainContract = new SupplyChainContract();
          const response = await supplychainContract.getProducts();
          const productFilted = response.filter((data: any) => (data.productState === StateProduct.ReceivedByDeliveryHub &&
-            data.deliveryHubDetails.deliveryHubcode === currentUser?.code));
+            data.deliveryHubDetails.deliveryHubCode === currentUser?.code));
          setProductsOrdered(productFilted.length);
       } catch (error) {
          console.log(error);

@@ -10,20 +10,20 @@ const about4 = require('../images/about_slide4.jpg');
 export const dataBanner = [
    {
       id: 1,
-      title: 'Rau và trái cây tốt cho sức khỏe',
-      description: 'Việc ăn rau củ quả đã được khoa học khẳng định là rất tốt cho sức khỏe. Mặc dù các chất dinh dưỡng cụ thể có trong rau khác nhau giữa các loại, nhưng hầu hết chúng đều mang lại lợi ích cho sức khỏe',
+      title: 'Thuốc đảm bảo chất lượng',
+      description: 'Việc sử dụng thuốc có nguồn gốc xuất xứ rõ ràng, đảm bảo chất lượng sức khỏe cho bản thân, gia đình và xã hội, giá cả phải chăng, thanh toán nhanh chóng...',
       image: banner1
    },
    {
       id: 2,
-      title: 'Cá tươi giàu dinh dưỡng',
-      description: 'Việc ăn rau củ quả đã được khoa học khẳng định là rất tốt cho sức khỏe. Mặc dù các chất dinh dưỡng cụ thể có trong rau khác nhau giữa các loại, nhưng hầu hết chúng đều mang lại lợi ích cho sức khỏe',
+      title: 'Thuốc đảm bảo chất lượng',
+      description: 'Việc sử dụng thuốc có nguồn gốc xuất xứ rõ ràng, đảm bảo chất lượng sức khỏe cho bản thân, gia đình và xã hội, giá cả phải chăng, thanh toán nhanh chóng...',
       image: banner2
    },
    {
       id: 3,
-      title: 'Ngũ cốc thơm ngon',
-      description: 'Việc ăn rau củ quả đã được khoa học khẳng định là rất tốt cho sức khỏe. Mặc dù các chất dinh dưỡng cụ thể có trong rau khác nhau giữa các loại, nhưng hầu hết chúng đều mang lại lợi ích cho sức khỏe',
+      title: 'Thuốc đảm bảo chất lượng',
+      description: 'Việc sử dụng thuốc có nguồn gốc xuất xứ rõ ràng, đảm bảo chất lượng sức khỏe cho bản thân, gia đình và xã hội, giá cả phải chăng, thanh toán nhanh chóng...',
       image: banner3
    }
 ]

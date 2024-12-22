@@ -29,7 +29,7 @@ module.exports = {
          textColor: {
             primary: '#262626', // back
             primary2: '#333', // low back 
-            green: '#209E2E',
+            green: '#4d79ff',
             666: '#666',
             333: '#333333', // web user
             444: '#444'

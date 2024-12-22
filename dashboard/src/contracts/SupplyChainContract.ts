@@ -36,7 +36,7 @@ export default class SupplyChainContract extends BaseInterface {
       await this._contract.purchaseByAgent(uid, agentCode, this._option);
    }
 
-   // step 3: thirdparty -> add price for sold product
+   // step 3: agent -> add price for sold product
    async sellByAgent(uid: number, price: number) {
       await this._contract.sellByAgent(uid, this._parseToEth(price), this._option);
    }

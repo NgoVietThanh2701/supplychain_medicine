@@ -36,7 +36,7 @@ export const sideBarAdmin = [
    },
 ]
 
-export const sideBarFarmer = [
+export const sideBarFactory = [
    {
       title: 'Tổng quan',
       links: [
@@ -56,7 +56,7 @@ export const sideBarFarmer = [
             path: path.FACTORY_PRODUCT
          },
          {
-            name: 'Đơn hàng',
+            name: 'Đã bán',
             icon: <HiOutlineShoppingBag />,
             path: path.FACTORY_ORDER
          },
@@ -69,7 +69,7 @@ export const sideBarFarmer = [
    },
 ]
 
-export const sideBarThirdParty = [
+export const sideBarAgent = [
    {
       title: 'Tổng quan',
       links: [

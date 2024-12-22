@@ -184,7 +184,7 @@ contract SupplyChain {
         Structure.Product memory product;
         product.uid = uid;
         product.owner = msg.sender;
-        /* set role for farmer */
+        /* set role for factory */
         product.factoryDetails.factory = msg.sender;
         product.factoryDetails.factoryCode = _factoryCode;
         /* set details for product*/

@@ -8,8 +8,8 @@ import { ethers } from 'ethers';
 import { useOutletContext } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Loading from '../../../components/Loading';
-import SellProductModal from '../../../components/Dashboard/thirdparty/SellProductModal';
-import { columnFM } from '../farmer/OrderFM';
+import SellProductModal from '../../../components/Dashboard/agent/SellProductModal';
+import { columnFM } from '../factory/OrderFactory';
 import { useSelector } from 'react-redux';
 import { useStateContext } from '../../../contexts/ContextProvider';
 
@@ -108,8 +108,6 @@ const PurchaseTPT = () => {
       }
    ]
 
-   console.log(productsReceive)
-
    const data = [
       {
          label: `Sản phẩm trong kho (${productsReceive.length})`,
@@ -170,17 +168,17 @@ export const columnTPT = [
    {
       field: 'code',
       headerName: 'Mã sản phẩm',
-      width: 100,
+      width: 80,
    },
    {
       field: 'name',
       headerName: 'Tên',
-      width: 100,
+      width: 70,
    },
    {
       field: 'images',
       headerName: 'Hình ảnh',
-      width: 135,
+      width: 120,
       renderCell: (params: any) => (
          <img className='rounded-full w-full h-full object-cover' src={params.row.images} alt="" />
       )
@@ -203,7 +201,7 @@ export const columnTPT = [
    {
       field: 'description',
       headerName: 'Mô tả',
-      width: 140
+      width: 90
    },
    {
       field: 'quantity',
@@ -216,11 +214,11 @@ export const columnTPT = [
    {
       field: 'nsx',
       headerName: 'Ngày sản xuất',
-      width: 130,
+      width: 110,
    },
    {
       field: 'hsd',
       headerName: 'Hạn sử dụng',
-      width: 130,
+      width: 110,
    },
 ]

@@ -25,8 +25,7 @@ const OrderFM = () => {
       try {
          const supplychainContract = new SupplyChainContract();
          const response = await supplychainContract.getProducts();
-         console.log(response)
-         const productFilted = response.filter((data: any) => (data.thirdPartyDetails.longitude !== "" && data.farmerDetails.factoryCode === currentUser?.code));
+         const productFilted = response.filter((data: any) => (data.productState !== StateProduct.Production && data.factoryDetails.factoryCode === currentUser?.code));
          const listProducts = [];
          for (let i = 0; i < productFilted.length; i++) {
             listProducts.push(convertObjectProduct(productFilted[i]));
@@ -48,9 +47,8 @@ const OrderFM = () => {
          images: data.productDetails.images,
          description: data.productDetails.description,
          quantity: data.productDetails.quantity.toNumber(),
-         temp: data.productDetails.temp,
-         humidity: data.productDetails.humidity,
-         date: data.productDetails.date.toNumber()
+         nsx: data.productDetails.nsx,
+         hsd: data.productDetails.hsd
       }
    }
 
@@ -88,12 +86,12 @@ export const columnFM = [
    {
       field: 'code',
       headerName: 'Mã sản phẩm',
-      width: 100,
+      width: 110,
    },
    {
       field: 'name',
       headerName: 'Tên',
-      width: 100,
+      width: 120,
    },
    {
       field: 'images',
@@ -106,7 +104,7 @@ export const columnFM = [
    {
       field: 'price',
       headerName: 'Giá',
-      width: 80,
+      width: 120,
       renderCell: (params: any) => (
          <span>{params.row.price} AGT</span>
       )
@@ -114,7 +112,7 @@ export const columnFM = [
    {
       field: 'category',
       headerName: 'Loại',
-      width: 100
+      width: 130
    },
    {
       field: 'description',
@@ -124,7 +122,7 @@ export const columnFM = [
    {
       field: 'quantity',
       headerName: 'Số lượng',
-      width: 70,
+      width: 90,
       renderCell: (params: any) => (
          <span>{params.row.quantity} hộp</span>
       )

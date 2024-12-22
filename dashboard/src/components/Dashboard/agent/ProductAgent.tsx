@@ -36,6 +36,7 @@ const ProductCard = ({ data, getProducts }: any) => {
          await supplychainContract.purchaseByAgent(uid, currentUser?.code);
          const currentDate = new Date();
          await apiCreateStatistical({ code: currentUser.code, revenue: 0, spend: price, dateOfWeek: currentDate });
+         await apiCreateStatistical({ code: data.factoryDetails.factoryCode, revenue: price, spend: 0, dateOfWeek: currentDate });
       } catch (error) {
          console.log(error)
          setIsLoading(false);
@@ -76,7 +77,7 @@ const ProductCard = ({ data, getProducts }: any) => {
    )
 }
 
-const ProductTPT = ({ dataProduct, getProducts }: any) => {
+const ProductAgent = ({ dataProduct, getProducts }: any) => {
 
    return (
       <div className='w-11/12 flex flex-col items-center gap-4 mt-2 py-2 mx-auto'>
@@ -92,4 +93,4 @@ const ProductTPT = ({ dataProduct, getProducts }: any) => {
    )
 }
 
-export default ProductTPT
+export default ProductAgent

@@ -14,6 +14,7 @@ import { IoCloseCircleOutline } from 'react-icons/io5';
 import { BsFillBackspaceReverseFill } from "react-icons/bs";
 import { useStateContext } from '../../../contexts/ContextProvider';
 import { SUPPLYCHAIN_ADDRESS, getAbiSupplyChain } from '../../../contracts/config';
+import { apiGetCurrentUser, apiGetInfoUser } from '../../../services/userServices';
 
 const libraries: LoadScriptProps['libraries'] = ['places'];
 
@@ -33,15 +34,32 @@ const ModalViewProduct = ({ setIsOpenModal, product }: any) => {
    const [directionResponse, setDirectionResponse] = useState(null);
    const [distance, setDistance] = useState('');
    const [duration, setDuration] = useState('')
+   const [infoAgent, setInfoAgent] = useState<any>();
+
+   const getInfoAgent = async () => {
+      try {
+         const responst = await apiGetInfoUser(product?.agent?.agentCode);
+         setInfoAgent(responst.data.data);
+      } catch (error: any) {
+         console.log(error)
+      }
+   }
+
+   useEffect(() => {
+      if (product) {
+         getInfoAgent();
+      }
+   }, [product]);
 
    if (!isLoaded) {
       return <Loading />
    }
 
+
    const directionCustomer = async (product: any) => {
       const directionService = new google.maps.DirectionsService();
       const result: any = await directionService.route({
-         origin: { lat: Number.parseFloat(product.thirdParty.latitude), lng: Number.parseFloat(product.thirdParty.longitude) },
+         origin: { lat: Number.parseFloat(infoAgent.latitude), lng: Number.parseFloat(infoAgent.longitude) },
          destination: product.customer.addressShip,
          travelMode: google.maps.TravelMode.DRIVING,
       });
@@ -57,45 +75,46 @@ const ModalViewProduct = ({ setIsOpenModal, product }: any) => {
                <IoCloseCircleOutline size={24} />
             </button>
             <h3 className='text-green font-medium uppercase text-xl border-b-1 border-color pb-1 w-[50%]'>Xem chi tiết quãng đường vận chuyển</h3>
-            <div className='w-full h-full relative'>
-               <div className='w-[168px] h-[100px] absolute bottom-0 z-10 left-0 bg-white flex flex-col text-sm justify-between p-1'>
-                  <div className='flex items-center justify-between'>
-                     <button className='text-white  px-2 py-1 rounded-md' style={{ backgroundColor: currentColor }}
-                        onClick={() => directionCustomer(product)}>Xem tuyến đường</button>
-                     <button className='text-red-600' onClick={() => map.panTo({
-                        lat: Number.parseFloat(product?.thirdParty.latitude),
-                        lng: Number.parseFloat(product?.thirdParty.longitude)
-                     })} ><BsFillBackspaceReverseFill size={20} /></button>
+            {infoAgent ?
+               <div className='w-full h-full relative'>
+                  <div className='w-[168px] h-[100px] absolute bottom-0 z-10 left-0 bg-white flex flex-col text-sm justify-between p-1'>
+                     <div className='flex items-center justify-between'>
+                        <button className='text-white  px-2 py-1 rounded-md' style={{ backgroundColor: currentColor }}
+                           onClick={() => directionCustomer(product)}>Xem tuyến đường</button>
+                        <button className='text-red-600' onClick={() => map.panTo({
+                           lat: Number.parseFloat(infoAgent.latitude),
+                           lng: Number.parseFloat(infoAgent.longitude)
+                        })} ><BsFillBackspaceReverseFill size={20} /></button>
+                     </div>
+                     <span className='text-444'>Khoảng cách: {distance}</span>
+                     <span className='text-444'>Mất khoảng: {duration}</span>
                   </div>
-                  <span className='text-444'>Khoảng cách: {distance}</span>
-                  <span className='text-444'>Mất khoảng: {duration}</span>
-               </div>
-               <GoogleMap
-                  center={{
-                     lat: Number.parseFloat(product?.thirdParty.latitude),
-                     lng: Number.parseFloat(product?.thirdParty.longitude)
-                  }}
-                  zoom={14}
-                  mapContainerStyle={{ width: '100%', height: '100%' }}
-                  onLoad={(map: any) => setMap(map)}
-               >
-                  <MarkerF
-                     position={{
-                        lat: Number.parseFloat(product?.thirdParty.latitude),
-                        lng: Number.parseFloat(product?.thirdParty.longitude)
+                  <GoogleMap
+                     center={{
+                        lat: Number.parseFloat(infoAgent.latitude),
+                        lng: Number.parseFloat(infoAgent.longitude)
                      }}
-                     icon={{
-                        url: broker_img,
-                        scaledSize: new window.google.maps.Size(40, 80),
-                     }}
+                     zoom={14}
+                     mapContainerStyle={{ width: '100%', height: '100%' }}
+                     onLoad={(map: any) => setMap(map)}
                   >
-                     <InfoBox options={options} >
-                        <div style={{ backgroundColor: 'green', color: 'white', borderRadius: '4px', fontSize: '13px', padding: '2px 3px', textAlign: 'center' }}> Nhận hàng tại đây </div>
-                     </InfoBox>
-                  </MarkerF>
-                  {directionResponse && <DirectionsRenderer directions={directionResponse} />}
-               </GoogleMap>
-            </div>
+                     <MarkerF
+                        position={{
+                           lat: Number.parseFloat(infoAgent.latitude),
+                           lng: Number.parseFloat(infoAgent.longitude)
+                        }}
+                        icon={{
+                           url: broker_img,
+                           scaledSize: new window.google.maps.Size(40, 80),
+                        }}
+                     >
+                        <InfoBox options={options} >
+                           <div style={{ backgroundColor: 'green', color: 'white', borderRadius: '4px', fontSize: '13px', padding: '2px 3px', textAlign: 'center' }}> Nhận hàng tại đây </div>
+                        </InfoBox>
+                     </MarkerF>
+                     {directionResponse && <DirectionsRenderer directions={directionResponse} />}
+                  </GoogleMap>
+               </div> : <div className='flex items-center justify-center'>Loading...</div>}
          </div>
       </div>
    )
@@ -108,12 +127,10 @@ const ReceiveDH = () => {
    const web3Provider: ethers.providers.Web3Provider = useOutletContext();
    const { currentUser } = useSelector((state: any) => state.user);
 
-   const [productsShipByTPT, setProductsShipByTPT] = useState<any>([]);
+   const [productsShipByAgent, setProductsShipByAgent] = useState<any>([]);
    const [productsReceived, setProductsReceived] = useState<any>([]);
    const [productsDeliveryed, setProductsDeliveryed] = useState<any>([]);
    const [isLoading, setIsLoading] = useState(false);
-   const [longitude, setLongitude] = useState('');
-   const [latitude, setLatitude] = useState('');
    const [activeTab, setActiveTab] = useState("ordered");
    const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -127,7 +144,7 @@ const ReceiveDH = () => {
       setIsOpenModal(true);
    }
 
-   const getProductsShipByTPT = async () => {
+   const getProductsShipByAgent = async () => {
       try {
          const supplychainContract = new SupplyChainContract();
          const response = await supplychainContract.getProducts();
@@ -136,7 +153,7 @@ const ReceiveDH = () => {
          for (let i = 0; i < productFilted.length; i++) {
             listProducts.push(convertObjectProduct(productFilted[i]));
          }
-         setProductsShipByTPT(listProducts.reverse());
+         setProductsShipByAgent(listProducts.reverse());
       } catch (error) {
          console.log(error);
       }
@@ -180,9 +197,9 @@ const ReceiveDH = () => {
          name: data.productDetails.name,
          code: data.productDetails.code,
          factory: data.factoryDetails,
-         thirdParty: data.thirdPartyDetails,
+         agent: data.agentDetails,
          customer: data.customerDetails,
-         from: showShortAddress(data.thirdPartyDetails.thirdParty, 5),
+         from: showShortAddress(data.agentDetails.agent, 5),
          to: data.customerDetails.addressShip,
          feeShip: formatToEth(data.customerDetails.feeShip),
          images: data.productDetails.images,
@@ -190,27 +207,11 @@ const ReceiveDH = () => {
       }
    }
 
-   const getLocation = () => {
-      navigator.geolocation.getCurrentPosition(function (position) {
-         setLongitude(position.coords.longitude.toString());
-         setLatitude(position.coords.latitude.toString());
-      },
-         (error: any) => {
-            // Xử lý khi người dùng không cho phép truy cập vị trí hoặc có lỗi khác xảy ra
-            switch (error.code) {
-               case error.PERMISSION_DENIED:
-                  Swal.fire('Opps!', 'Vui lòng thêm quyền truy cập vị trí', 'error');
-                  break;
-            }
-         })
-   }
-
    useEffect(() => {
       if (currentUser?.code) {
-         getProductsShipByTPT();
+         getProductsShipByAgent();
          getProductsReceived();
          getProductsDeliveryed();
-         getLocation();
       }
    }, [currentUser?.code]);
 
@@ -235,7 +236,7 @@ const ReceiveDH = () => {
       let contract = new ethers.Contract(SUPPLYCHAIN_ADDRESS, getAbiSupplyChain(), web3Provider);
       contract.once("ReceivedByDeliveryHub", (uid) => {
          setIsLoading(false);
-         getProductsShipByTPT();
+         getProductsShipByAgent();
          getProductsReceived();
       })
    }
@@ -294,10 +295,10 @@ const ReceiveDH = () => {
 
    const data = [
       {
-         label: `Đơn hàng quanh đây (${productsShipByTPT.length})`,
+         label: `Đơn hàng quanh đây (${productsShipByAgent.length})`,
          value: "ordered",
-         desc: productsShipByTPT.length > 0 ?
-            <DataTable columns={columnDelveryHub.concat(actionReceive)} rows={productsShipByTPT} /> :
+         desc: productsShipByAgent.length > 0 ?
+            <DataTable columns={columnDelveryHub.concat(actionReceive)} rows={productsShipByAgent} /> :
             <div className='flex flex-col gap-3 items-center justify-center mt-10'>
                <img src={nodata_img} alt='' />
                Không có dữ liệu nào!

@@ -8,7 +8,7 @@ import { useOutletContext } from 'react-router-dom';
 import StateProduct from '../../../utils/data/statesProduct';
 import { formatToEth } from '../../../utils/function/format';
 import { useSelector } from 'react-redux';
-import { columnTPT } from './PurchaseTPT';
+import { columnTPT } from './PurchaseAgent';
 import { SUPPLYCHAIN_ADDRESS, getAbiSupplyChain } from '../../../contracts/config';
 import { useStateContext } from '../../../contexts/ContextProvider';
 import { Tabs, TabsHeader, TabsBody, Tab, TabPanel } from "@material-tailwind/react";
@@ -30,8 +30,8 @@ const OrderedTPT = () => {
       try {
          const supplychainContract = new SupplyChainContract();
          const response = await supplychainContract.getProducts();
-         const productFilted = response.filter((data: any) => (data.productState === StateProduct.PurchasedByCustomer && data.thirdPartyDetails
-            .thirdPartyCode === currentUser?.code));
+         const productFilted = response.filter((data: any) => (data.productState === StateProduct.PurchasedByCustomer && data.agentDetails
+            .agentCode === currentUser?.code));
          const listProducts = [];
          for (let i = 0; i < productFilted.length; i++) {
             listProducts.push(convertObjectProduct(productFilted[i]));
@@ -46,8 +46,8 @@ const OrderedTPT = () => {
       try {
          const supplychainContract = new SupplyChainContract();
          const response = await supplychainContract.getProducts();
-         const productFilted = response.filter((data: any) => (data.productState === StateProduct.ReceivedByCustomer && data.thirdPartyDetails
-            .thirdPartyCode === currentUser?.code));
+         const productFilted = response.filter((data: any) => (data.productState === StateProduct.ReceivedByCustomer && data.agentDetails
+            .agentCode === currentUser?.code));
          const listProducts = [];
          for (let i = 0; i < productFilted.length; i++) {
             listProducts.push(convertObjectProduct(productFilted[i]));
@@ -66,14 +66,13 @@ const OrderedTPT = () => {
          feeShip: formatToEth(data.customerDetails.feeShip),
          code: data.productDetails.code,
          price: formatToEth(data.productDetails.price),
-         priceTPT: formatToEth(data.productDetails.priceThirdParty),
+         priceAgent: formatToEth(data.productDetails.priceAgent),
          category: data.productDetails.category,
          images: data.productDetails.images,
          description: data.productDetails.description,
          quantity: data.productDetails.quantity.toNumber(),
-         temp: data.productDetails.temp,
-         humidity: data.productDetails.humidity,
-         date: data.productDetails.date.toNumber()
+         nsx: data.productDetails.nsx,
+         hsd: data.productDetails.hsd
       }
    }
 
@@ -102,7 +101,7 @@ const OrderedTPT = () => {
 
    const listenEvent = () => {
       let contract = new ethers.Contract(SUPPLYCHAIN_ADDRESS, getAbiSupplyChain(), web3Provider);
-      contract.once("ShippedByThirdParty", (uid) => {
+      contract.once("ShippedByAgent", (uid) => {
          setIsLoading(false);
          getProductsOrdered();
       })
@@ -121,7 +120,7 @@ const OrderedTPT = () => {
 
    const data = [
       {
-         label: `Đơn hàng (${productsOrder.length})`,
+         label: `Đơn đặt hàng (${productsOrder.length})`,
          value: "ordered",
          desc: productsOrder.length > 0 ?
             <DataTable columns={columnTPT.concat(action)} rows={productsOrder} /> :

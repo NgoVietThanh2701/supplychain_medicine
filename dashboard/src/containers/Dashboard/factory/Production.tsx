@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { useState, useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom';
 import DataTable from '../../../components/Dashboard/DataTable';
-import HarvestedModal from '../../../components/Dashboard/farmer/HarvestedModal';
+import ProductionModal from '../../../components/Dashboard/factory/ProductionModal';
 import Swal from 'sweetalert2';
 import SupplyChainContract from '../../../contracts/SupplyChainContract';
 import StateProduct from '../../../utils/data/statesProduct';
@@ -41,7 +41,7 @@ const Harvested = () => {
    const convertObjectProduct = (data: any) => {
       return {
          uid: data.uid.toNumber(),
-         productState: data.productSatte,
+         productState: data.productSate,
          name: data.productDetails.name,
          code: data.productDetails.code,
          price: formatToEth(data.productDetails.price),
@@ -53,6 +53,8 @@ const Harvested = () => {
          hsd: data.productDetails.hsd
       }
    }
+
+   console.log(products)
 
    useEffect(() => {
       if (currentUser?.code) {
@@ -70,7 +72,7 @@ const Harvested = () => {
 
    return (
       <div className='w-auto bg-white mx-5 px-5 py-5 mt-14 rounded-lg'>
-         {isOpenModal && <HarvestedModal setIsOpenModal={setIsOpenModal} getProducts={getProducts} />}
+         {isOpenModal && <ProductionModal setIsOpenModal={setIsOpenModal} getProducts={getProducts} />}
          <div className='flex items-center justify-between'>
             <h3 className='text-444 text-xl font-medium mb-5'>Danh sách sản phẩm</h3>
             <button onClick={handleAddProduct} className='text-white py-[7px] text-sm px-[10px] rounded-lg' style={{ backgroundColor: currentColor }}>

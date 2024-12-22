@@ -5,8 +5,6 @@ import { BsBoxSeam } from 'react-icons/bs';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import moment from 'moment'
 import 'moment/locale/vi'
-import SupplyChainContract from '../../../contracts/SupplyChainContract';
-import StateProduct from '../../../utils/data/statesProduct';
 import { useSelector } from 'react-redux';
 import { useStateContext } from '../../../contexts/ContextProvider';
 import { apigetRequestUsers, apigetUsers } from '../../../services/adminServices';

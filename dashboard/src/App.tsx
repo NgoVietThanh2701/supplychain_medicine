@@ -11,16 +11,16 @@ import SingleProduct from './containers/Public/SingleProduct';
 import BuyToken from './containers/BuyToken';
 import RequestUsers from './containers/Dashboard/admin/RequestUsers';
 import Users from './containers/Dashboard/admin/Users';
-import Harvested from './containers/Dashboard/farmer/Harvested';
+import Harvested from './containers/Dashboard/factory/Production';
 import StatisticalAdmin from './containers/Dashboard/admin/StatisticalAdmin';
-import StatisticalFM from './containers/Dashboard/farmer/StatisticalFM';
-import Category from './containers/Dashboard/farmer/Category';
-import OrderFM from './containers/Dashboard/farmer/OrderFM';
-import StatisticalTPT from './containers/Dashboard/thirdParty/StatisticalTPT';
-import ShopProductTPT from './containers/Dashboard/thirdParty/ShopProductTPT';
-import PurchaseTPT from './containers/Dashboard/thirdParty/PurchaseTPT';
+import StatisticalFM from './containers/Dashboard/factory/StatisticalFactory';
+import Category from './containers/Dashboard/factory/Category';
+import OrderFM from './containers/Dashboard/factory/OrderFactory';
+import StatisticalTPT from './containers/Dashboard/agent/StatisticalAgent';
+import ShopProductTPT from './containers/Dashboard/agent/ShopProductAgent';
+import PurchaseTPT from './containers/Dashboard/agent/PurchaseAgent';
 import StatisticalDH from './containers/Dashboard/deliveryhub/StatisticalDH';
-import OrderedTPT from './containers/Dashboard/thirdParty/OrderedTPT';
+import OrderedTPT from './containers/Dashboard/agent/OrderedAgent';
 import ReceiveDH from './containers/Dashboard/deliveryhub/ReceiveDH';
 import PurchaseForm from './containers/Public/PurchaseForm';
 
@@ -34,7 +34,7 @@ const App = () => {
             <Route path={path.ADMIN_STATISTICAL} element={<StatisticalAdmin />} />
             <Route path={path.ADMIN_REQUEST} element={<RequestUsers />} />
             <Route path={path.ADMIN_USERS} element={<Users />} />
-            {/* - farmer */}
+            {/* - factory */}
             <Route path={path.FACTORY_STATISTICAL} element={<StatisticalFM />} />
             <Route path={path.FACTORY_PRODUCT} element={<Harvested />} />
             <Route path={path.FACTORY_CATEGORY} element={<Category />} />

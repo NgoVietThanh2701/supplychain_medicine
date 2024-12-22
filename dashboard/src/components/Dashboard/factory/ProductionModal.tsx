@@ -2,9 +2,6 @@ import { useState, useEffect } from 'react';
 import { IoCloseCircleOutline } from "react-icons/io5";
 import InputForm from '../../Public/InputForm';
 import { BsCloudArrowUp } from "react-icons/bs";
-import { WiHumidity } from "react-icons/wi";
-import { CiLocationOn } from "react-icons/ci";
-import { LiaTemperatureLowSolid } from "react-icons/lia";
 import { apigetCategories } from '../../../services/factory';
 import validate from '../../../utils/function/validateField';
 import axios from 'axios';
@@ -13,10 +10,11 @@ import { ethers } from 'ethers';
 import { useOutletContext } from 'react-router-dom';
 import SupplyChainContract from '../../../contracts/SupplyChainContract';
 import { capitalizeFirstLetter } from '../../../utils/function/format';
-import AutoCompleteMap from '../../AutoCompleteMap';
 import { useSelector } from 'react-redux';
 import { SUPPLYCHAIN_ADDRESS, getAbiSupplyChain } from '../../../contracts/config';
 import { useStateContext } from '../../../contexts/ContextProvider';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const { v4: uuidv4 } = require('uuid');
 const noImg = require('../../../utils/images/no-data.jpg');
@@ -28,7 +26,7 @@ const pinataConfig = {
    }
 };
 
-const HarvestedModal = ({ setIsOpenModal, getProducts }: any) => {
+const ProductionModal = ({ setIsOpenModal, getProducts }: any) => {
 
    const { currentColor } = useStateContext();
 
@@ -47,8 +45,9 @@ const HarvestedModal = ({ setIsOpenModal, getProducts }: any) => {
       image: null,
       descriptionProduct: '',
       quantity: '',
+      startDate: "",
+      endDate: ""
    });
-
 
    console.log(payload);
 
@@ -71,6 +70,18 @@ const HarvestedModal = ({ setIsOpenModal, getProducts }: any) => {
       getCategories();
    }, []);
 
+   console.log(payload)
+
+
+   const formatDate = (date: any) => {
+      if (!date) return ""; // Kiểm tra null hoặc undefined
+      return new Intl.DateTimeFormat("vi-VN", {
+         day: "2-digit",
+         month: "2-digit",
+         year: "numeric",
+      }).format(date);
+   };
+
    async function handleHarvested() {
       let invalids = validate(payload, setInvalidFields);
       try {
@@ -90,7 +101,7 @@ const HarvestedModal = ({ setIsOpenModal, getProducts }: any) => {
                });
                const urlImage = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
                const supplychainContract = new SupplyChainContract(web3Provider);
-               await supplychainContract.productionProduct(capitalizeFirstLetter(payload.name), uuidv4(), Number.parseFloat(payload.price), payload.category, urlImage, payload.descriptionProduct, Number.parseFloat(payload.quantity), "2/12/2024", "3/4/2035", currentUser?.code);
+               await supplychainContract.productionProduct(capitalizeFirstLetter(payload.name), uuidv4(), Number.parseFloat(payload.price), payload.category, urlImage, payload.descriptionProduct, Number.parseFloat(payload.quantity), formatDate(payload.startDate), formatDate(payload.endDate), currentUser?.code);
                listenEvent();
             } catch (error) {
                console.log(error)
@@ -99,7 +110,7 @@ const HarvestedModal = ({ setIsOpenModal, getProducts }: any) => {
             setErrs(true);
          }
       } catch (error) {
-
+         console.log(error)
       }
    }
 
@@ -168,7 +179,7 @@ const HarvestedModal = ({ setIsOpenModal, getProducts }: any) => {
                <textarea id="description" rows={2} onChange={(e) => setPayload((prev: any) => ({ ...prev, descriptionProduct: e.target.value }))}
                   className="block p-2.5 w-full text-sm text-333 bg-gray-50 rounded-lg outline-none border-color focus:border-[#3B71CA] border-1" placeholder="Nhập thông tin mô tả sản phẩm tại đây..."></textarea>
             </div>
-            <div className='flex justify-center gap-1'>
+            <div className='flex justify-center items-center gap-2'>
                <div className='w-2/5 flex flex-col items-center'>
                   <div className='w-full h-[220px] p-2'><img src={payload.image ? preview : noImg} alt="" className='w-full h-full object-cover' /></div>
                   <input type="file" id='img' onChange={loadImage} style={{ display: "none" }} />
@@ -179,8 +190,29 @@ const HarvestedModal = ({ setIsOpenModal, getProducts }: any) => {
                      </small>
                   }
                </div>
-               <div className='w-2/5'>
-                  dasdsasa
+               <div className='w-2/5 mb-3'>
+                  <div>
+                     <span className='text-333' >Ngày sản xuất</span>
+                     <div>
+                        <DatePicker
+                           selected={payload.startDate ? new Date(payload.startDate) : null}
+                           onChange={(date) => setPayload((prev: any) => ({ ...prev, startDate: date }))}
+                           className="w-full block px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-600 mt-2"
+                           placeholderText="Chọn ngày..."
+                        />
+                     </div>
+                  </div>
+                  <div className='mt-4'>
+                     <span className='text-333' >Ngày hết hạn</span>
+                     <div>
+                        <DatePicker
+                           selected={payload.endDate ? new Date(payload.endDate) : null}
+                           onChange={(date) => setPayload((prev: any) => ({ ...prev, endDate: date }))}
+                           className="w-full block px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-600 mt-2"
+                           placeholderText="Chọn ngày..."
+                        />
+                     </div>
+                  </div>
                </div>
             </div>
             {errs && <span className='text-red-700 text-sm mx-auto italic'>Vui lòng cung cấp dầy đủ thông tin!</span>}
@@ -193,4 +225,4 @@ const HarvestedModal = ({ setIsOpenModal, getProducts }: any) => {
    )
 }
 
-export default HarvestedModal
+export default ProductionModal

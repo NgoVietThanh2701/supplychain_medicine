@@ -5,7 +5,7 @@ const path = {
    ADMIN_STATISTICAL: 'admin/statistical',
    ADMIN_REQUEST: 'admin/request',
    ADMIN_USERS: 'admin/users',
-   // farmer
+   // factory
    FACTORY_STATISTICAL: 'factory/statistical',
    FACTORY_PRODUCT: 'factory/products',
    FACTORY_ORDER: 'factory/orders',

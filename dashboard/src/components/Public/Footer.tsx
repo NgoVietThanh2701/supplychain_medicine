@@ -59,7 +59,7 @@ const Footer = () => {
          </div>
          <div className='border-dotted border-t-2 border-green-300 mt-7' />
          <div className='flex items-center justify-between my-7 text-[#7A7E9A]'>
-            <p>Copyright @2023. Ngô Viết Thành - 19IT6 - 19IT443</p>
+            <p>Copyright @2023.Trần Giàu</p>
             <p>Terms & Conditions Privacy Policy</p>
          </div>
       </div>

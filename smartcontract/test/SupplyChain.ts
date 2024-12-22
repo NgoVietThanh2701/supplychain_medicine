@@ -72,7 +72,7 @@ describe("--- SupplyChain", function () {
       expect(formatEther(await token.balanceOf(agent.address))).equal(balanceAgent - formatEther(product.productDetails.price));
       expect(await supplyChain.getProductState(product.uid)).equal(State.PurchasedByAgent);
       product = await supplyChain.getProductByCode("dau"); // update infomation for product
-      // after sell product -> balance of farmer + price product sell
+      // after sell product -> balance of factory + price product sell
       expect(formatEther(await token.balanceOf(factory.address))).equal(balanceFactoy + formatEther(product.productDetails.price));
       expect(product.owner).equal(agent.address);
       // -> Step 3
@@ -122,8 +122,8 @@ describe("--- SupplyChain", function () {
    it("Should not grant role, sender is not admin!", async () => {
       await expect(supplyChain.connect(factory).addAgent(agent.address)).revertedWith("Sender is not a admin");
    });
-   it("Should not create product, Sender is not a farmer!", async () => {
-      await expect(supplyChain.connect(factory).productionProduct("Dâu tây", "dau", parseEther(30), "hoa qua", "http/farmer/image1", "dessdadcription", 50, "43242.43", "23432.432", "#codefactory")).revertedWith("Sender is not a Factory!");
+   it("Should not create product, Sender is not a factory!", async () => {
+      await expect(supplyChain.connect(factory).productionProduct("Dâu tây", "dau", parseEther(30), "hoa qua", "http/factory/image1", "dessdadcription", 50, "43242.43", "23432.432", "#codefactory")).revertedWith("Sender is not a Factory!");
    });
 });
 

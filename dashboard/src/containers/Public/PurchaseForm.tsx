@@ -67,8 +67,6 @@ const ModalViewProduct = ({ setIsOpenModal, product }: any) => {
       try {
          const response = await apiGetInfoUser(code);
          setInfoFactory(response.data.data);
-         // setNameFarmer(responst.data.data.name);
-         // setAddressFarmer(responst.data.data.addressWallet);
       } catch (error: any) {
          console.log(error)
       }
@@ -140,80 +138,81 @@ const ModalViewProduct = ({ setIsOpenModal, product }: any) => {
                      <span className='absolute z-10 top-64 text-red-600 font-medium text-lg rounded-md px-2 py-1 left-[-60px]'>Chờ nhận hàng</span>
                   </div>
                </div>
-               <div className='flex-auto h-full relative'>
-                  <button onClick={() => map.panTo({
-                     lat: Number.parseFloat(infoAgent.latitude),
-                     lng: Number.parseFloat(infoAgent.longitude)
-                  })} className='absolute z-10 bottom-[30px] left-2 text-green'><BsFillBackspaceReverseFill size={22} /></button>
-                  <button onClick={directionCustomer} className='absolute z-10 bottom-[5px] left-2 text-white text-sm bg-bg-green font-medium rounded-md px-2 py-1'>Xem tuyến đường giao hàng</button>
-                  <GoogleMap
-                     center={{
-                        lat: Number.parseFloat(infoDelivery.latitude),
-                        lng: Number.parseFloat(infoDelivery.longitude)
-                     }}
-                     zoom={13}
-                     mapContainerStyle={{ width: '100%', height: '100%' }}
-                     onLoad={(map: any) => setMap(map)}
-                  >
-                     <MarkerF
-                        position={{
-                           lat: Number.parseFloat(infoFactory.latitude),
-                           lng: Number.parseFloat(infoFactory.longitude)
-                        }}
-                        icon={{
-                           url: farmer_img,
-                           scaledSize: new google.maps.Size(60, 110),
-                        }}
-                     >
-                        <InfoBox options={options} >
-                           <div style={{ backgroundColor: 'green', color: 'white', borderRadius: '4px', fontSize: '14px', padding: '4px 2px', textAlign: 'center' }}> Nơi sản xuất </div>
-                        </InfoBox>
-                     </MarkerF>
-                     <MarkerF
-                        position={{
-                           lat: Number.parseFloat(infoAgent.latitude),
-                           lng: Number.parseFloat(infoAgent.longitude)
-                        }}
-                        icon={{
-                           url: broker_img,
-                           scaledSize: new window.google.maps.Size(40, 80),
-                        }}
-                     >
-                        <InfoBox options={options} >
-                           <div style={{ backgroundColor: 'green', color: 'white', borderRadius: '4px', fontSize: '13px', padding: '2px 3px', textAlign: 'center' }}> Người môi giới </div>
-                        </InfoBox>
-                     </MarkerF>
-                     <MarkerF
-                        position={{
+               {(infoFactory && infoAgent && infoDelivery) ?
+                  <div className='flex-auto h-full relative'>
+                     <button onClick={() => map.panTo({
+                        lat: Number.parseFloat(infoAgent.latitude),
+                        lng: Number.parseFloat(infoAgent.longitude)
+                     })} className='absolute z-10 bottom-[30px] left-2 text-green'><BsFillBackspaceReverseFill size={22} /></button>
+                     <button onClick={directionCustomer} className='absolute z-10 bottom-[5px] left-2 text-white text-sm bg-bg-green font-medium rounded-md px-2 py-1'>Xem tuyến đường giao hàng</button>
+                     <GoogleMap
+                        center={{
                            lat: Number.parseFloat(infoDelivery.latitude),
                            lng: Number.parseFloat(infoDelivery.longitude)
                         }}
-                        icon={{
-                           url: delivery_img,
-                           scaledSize: new google.maps.Size(50, 90),
-                        }}
+                        zoom={13}
+                        mapContainerStyle={{ width: '100%', height: '100%' }}
+                        onLoad={(map: any) => setMap(map)}
                      >
-                        <InfoBox options={options} >
-                           <div style={{ backgroundColor: 'green', color: 'white', borderRadius: '4px', fontSize: '13px', padding: '2px 2px', textAlign: 'center' }}>Người vận chuyển</div>
-                        </InfoBox>
-                     </MarkerF>
-                     <PolylineF path={[
-                        {
-                           lat: Number.parseFloat(infoFactory.latitude),
-                           lng: Number.parseFloat(infoFactory.longitude)
-                        },
-                        {
-                           lat: Number.parseFloat(infoAgent.latitude),
-                           lng: Number.parseFloat(infoAgent.longitude)
-                        },
-                        {
-                           lat: Number.parseFloat(infoDelivery.latitude),
-                           lng: Number.parseFloat(infoDelivery.longitude)
-                        }
-                     ]} options={optionsPolyline} />
-                     {directionResponse && <DirectionsRenderer directions={directionResponse} />}
-                  </GoogleMap>
-               </div>
+                        <MarkerF
+                           position={{
+                              lat: Number.parseFloat(infoFactory.latitude),
+                              lng: Number.parseFloat(infoFactory.longitude)
+                           }}
+                           icon={{
+                              url: farmer_img,
+                              scaledSize: new google.maps.Size(60, 110),
+                           }}
+                        >
+                           <InfoBox options={options} >
+                              <div style={{ backgroundColor: 'green', color: 'white', borderRadius: '4px', fontSize: '14px', padding: '4px 2px', textAlign: 'center' }}> Nơi sản xuất </div>
+                           </InfoBox>
+                        </MarkerF>
+                        <MarkerF
+                           position={{
+                              lat: Number.parseFloat(infoAgent.latitude),
+                              lng: Number.parseFloat(infoAgent.longitude)
+                           }}
+                           icon={{
+                              url: broker_img,
+                              scaledSize: new window.google.maps.Size(40, 80),
+                           }}
+                        >
+                           <InfoBox options={options} >
+                              <div style={{ backgroundColor: 'green', color: 'white', borderRadius: '4px', fontSize: '13px', padding: '2px 3px', textAlign: 'center' }}> Người môi giới </div>
+                           </InfoBox>
+                        </MarkerF>
+                        <MarkerF
+                           position={{
+                              lat: Number.parseFloat(infoDelivery.latitude),
+                              lng: Number.parseFloat(infoDelivery.longitude)
+                           }}
+                           icon={{
+                              url: delivery_img,
+                              scaledSize: new google.maps.Size(50, 90),
+                           }}
+                        >
+                           <InfoBox options={options} >
+                              <div style={{ backgroundColor: 'green', color: 'white', borderRadius: '4px', fontSize: '13px', padding: '2px 2px', textAlign: 'center' }}>Người vận chuyển</div>
+                           </InfoBox>
+                        </MarkerF>
+                        <PolylineF path={[
+                           {
+                              lat: Number.parseFloat(infoFactory.latitude),
+                              lng: Number.parseFloat(infoFactory.longitude)
+                           },
+                           {
+                              lat: Number.parseFloat(infoAgent.latitude),
+                              lng: Number.parseFloat(infoAgent.longitude)
+                           },
+                           {
+                              lat: Number.parseFloat(infoDelivery.latitude),
+                              lng: Number.parseFloat(infoDelivery.longitude)
+                           }
+                        ]} options={optionsPolyline} />
+                        {directionResponse && <DirectionsRenderer directions={directionResponse} />}
+                     </GoogleMap>
+                  </div> : <div className='flex justify-center items-center'>Loading...</div>}
             </div>
          </div>
       </div>
@@ -274,7 +273,6 @@ const PurchaseForm = () => {
    }, []);
 
    const getProductsWaitConfirm = async () => {
-      herre
       try {
          const supplychainContract = new SupplyChainContract();
          const response = await supplychainContract.getProducts();
@@ -379,10 +377,10 @@ const PurchaseForm = () => {
       }
    }, [currentUser?.code]);
 
-   const handleConfirm = async (uid: number, TPTCode: string, deliveryCode: string, priceTPT: number, priceDelivery: number) => {
-      const revenueTPT = priceTPT - 0.1 * priceTPT;
+   const handleConfirm = async (uid: number, agentCode: string, deliveryCode: string, priceAgent: number, priceDelivery: number) => {
+      const revenueTPT = priceAgent - 0.1 * priceAgent;
       const revenueDelivery = priceDelivery - 0.1 * priceDelivery;
-      const revenueAdmin = 0.1 * priceTPT + 0.1 * priceDelivery;
+      const revenueAdmin = 0.1 * priceAgent + 0.1 * priceDelivery;
       if (!web3Provider) {
          Swal.fire('Opps', 'Vui lòng kết nối với ví', 'error');
          return;
@@ -393,7 +391,7 @@ const PurchaseForm = () => {
          listenEvent();
          await supplychainContract.receiveByCustomer(uid);
          const currentDate = new Date();
-         await apiCreateStatistical({ code: TPTCode, revenue: revenueTPT, spend: 0, dateOfWeek: currentDate });
+         await apiCreateStatistical({ code: agentCode, revenue: revenueTPT, spend: 0, dateOfWeek: currentDate });
          await apiCreateStatistical({ code: deliveryCode, revenue: revenueDelivery, spend: 0, dateOfWeek: currentDate });
          await apiCreateStatistical({ code: process.env.REACT_APP_CODE_ADMIN, revenue: revenueAdmin, spend: 0, dateOfWeek: currentDate });
       } catch (error) {
@@ -418,7 +416,7 @@ const PurchaseForm = () => {
       renderCell: (params: any) => (
          <div className='flex gap-2 items-center'>
             <button onClick={() => handleViewMap(params.row)} className='text-white bg-bg-green px-2 py-1 rounded-md'>Xem</button>
-            <button onClick={() => handleConfirm(params.row.uid, params.row.agent.agentCode, params.row.delivery.deliveryHubCode, params.row.priceTPT, params.row.priceDelivery)} className='text-white bg-bg-green px-1 py-1 rounded-md'>Nhận hàng</button>
+            <button onClick={() => handleConfirm(params.row.uid, params.row.agent.agentCode, params.row.delivery.deliveryHubCode, params.row.priceAgent, params.row.priceDelivery)} className='text-white bg-bg-green px-1 py-1 rounded-md'>Nhận hàng</button>
          </div>
       )
    }

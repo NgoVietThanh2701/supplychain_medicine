@@ -51,7 +51,7 @@ const Header = () => {
       <div className='w-5/6 h-[80px] bg-white flex items-center justify-between px-5 rounded-lg'>
          <Link to='/' className=' flex items-center'>
             <LiaGripfire size={38} className='text-green' />
-            <span className='text-green text-xl font-bold'>AGRICHAIN</span>
+            <span className='text-green text-xl font-bold'>PRAMACY CITY</span>
          </Link>
          <ul className='flex gap-6'>
             <NavLink className={({ isActive }) => isActive ? 'border-b-2 border-green-500' : ''} to='/' key='/'>
@@ -66,10 +66,10 @@ const Header = () => {
                      Đăng nhập <IoIosArrowDown size={13} className='text-primary2' />
                   </div>
                   <ul className='w-60 bg-white hidden group-hover:block absolute top-7 left-[-40%] rounded-b-md z-20 mt-6 shadow-md px-5 py-6 transform transition duration-300'>
-                     <Link to={`/login/${roles[roles.customer]}`} className='block py-2 hover:text-green'>Khách hàng</Link>
-                     <Link to={`/login/${roles[roles.factory]}`} className='block py-2 hover:text-green'>Người sản xuất</Link>
+                     <Link to={`/login/${roles[roles.customer]}`} className='block py-2 hover:text-green'>Người tiêu dùng</Link>
+                     <Link to={`/login/${roles[roles.factory]}`} className='block py-2 hover:text-green'>Nhà sản xuất</Link>
                      <Link to={`/login/${roles[roles.agent]}`} className='block py-2 hover:text-green'>Đại lý</Link>
-                     <Link to={`/login/${roles[roles.deliveryhub]}`} className='block py-2 hover:text-green'>Vận chuyển</Link>
+                     <Link to={`/login/${roles[roles.deliveryhub]}`} className='block py-2 hover:text-green'>Nhà vận chuyển</Link>
                      <Link to={`/login/${roles[roles.admin]}`} className='block py-2 hover:text-green'>Admin</Link>
                   </ul>
                   <div className=" z-10 h-7 w-52 absolute top-full left-[-15%]"></div>
@@ -81,10 +81,10 @@ const Header = () => {
                      Đăng ký <IoIosArrowDown size={13} className='text-primary2' />
                   </div>
                   <ul className='w-60 bg-white hidden group-hover:block absolute top-7 left-[-40%]  rounded-b-md z-20 mt-6 shadow-md px-5 py-6 transform transition duration-300'>
-                     <Link to={`/register/${roles[roles.customer]}`} className='block py-2 hover:text-green'>Khách hàng</Link>
-                     <Link to={`/register/${roles[roles.factory]}`} className='block py-2 hover:text-green'>Người sản xuất</Link>
+                     <Link to={`/register/${roles[roles.customer]}`} className='block py-2 hover:text-green'>Người tiêu dùng</Link>
+                     <Link to={`/register/${roles[roles.factory]}`} className='block py-2 hover:text-green'>Nhà sản xuất</Link>
                      <Link to={`/register/${roles[roles.agent]}`} className='block py-2 hover:text-green'>Đại lý</Link>
-                     <Link to={`/register/${roles[roles.deliveryhub]}`} className='block py-2 hover:text-green'>Vận chuyển</Link>
+                     <Link to={`/register/${roles[roles.deliveryhub]}`} className='block py-2 hover:text-green'>Nhà vận chuyển</Link>
                   </ul>
                   <div className=" z-10 h-7 w-52 absolute top-full left-0"></div>
                </div>

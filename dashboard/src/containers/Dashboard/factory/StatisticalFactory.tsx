@@ -19,7 +19,6 @@ const StatisticalFM = () => {
    const { currentUser } = useSelector((state: any) => state.user);
 
    const [products, setProductsLength] = useState(0);
-   const [productsOrdered, setProductsOrdered] = useState(0);
    const [productsSold, setProductsSold] = useState(0);
 
    const getStatistical = async () => {
@@ -67,7 +66,7 @@ const StatisticalFM = () => {
       try {
          const supplychainContract = new SupplyChainContract();
          const response = await supplychainContract.getProducts();
-         const productFilted = response.filter((data: any) => (data.productState === StateProduct.Production && data.farmerDetails.factoryCode === currentUser?.code));
+         const productFilted = response.filter((data: any) => (data.productState === StateProduct.Production && data.factoryDetails.factoryCode === currentUser?.code));
          setProductsLength(productFilted.length);
       } catch (error) {
          console.log(error);
@@ -80,7 +79,7 @@ const StatisticalFM = () => {
          const supplychainContract = new SupplyChainContract();
          const response = await supplychainContract.getProducts();
          console.log(response)
-         const productFilted = response.filter((data: any) => (data.thirdPartyDetails.longitude !== "" && data.farmerDetails.factoryCode === currentUser?.code));
+         const productFilted = response.filter((data: any) => (data.productState !== StateProduct.Production && data.factoryDetails.factoryCode === currentUser?.code));
          setProductsSold(productFilted.length);
       } catch (error) {
          console.log(error);
@@ -103,11 +102,6 @@ const StatisticalFM = () => {
                <div className='bg-[#FEC90F] p-4 rounded-full mx-auto ml-auto'><BsBoxSeam color='white' className='p-0.5' size={30} /></div>
                <span className='text-333 font-bold text-xl'>{products}</span>
                <span className='text-444'>Sản phẩm</span>
-            </div>
-            <div className='flex flex-col gap-1.5 bg-white w-56 px-6 py-4 rounded-lg'>
-               <div className='bg-[#EBFAF2] p-4 rounded-full mx-auto ml-auto'><HiOutlineRefresh color='#00C292' className='p-0.5' size={30} /></div>
-               <span className='text-333 font-bold text-xl'>{productsOrdered}</span>
-               <span className='text-444'>Đơn đặt hàng</span>
             </div>
             <div className='flex flex-col gap-1.5 bg-white w-56 px-6 py-4 rounded-lg'>
                <div className='bg-[#EBFAF2] p-4 rounded-full mx-auto ml-auto'><CiBag1 color='#00C292' className='p-0.5' size={30} /></div>

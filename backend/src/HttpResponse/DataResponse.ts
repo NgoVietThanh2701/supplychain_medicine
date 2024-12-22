@@ -10,7 +10,7 @@ export class MessageResponse {
    static ERROR_OCCURRED = 'Có lỗi xảy ra, vui lòng thử lại.';
    static APPROVE_ACCOUNT_SUCCESS = 'Thêm người dùng thành công.';
    static NOT_ADMIN = 'Vui lòng đăng nhập với tài khoản admin.';
-   static NOT_FARMER = 'Vui lòng đăng nhập với tài khoản farmer.';
+   static NOT_FACTORY = 'Vui lòng đăng nhập với tài khoản factory.';
    static SUCCESS = 'Thành công.';
    static MISSING_INPUT = 'Thiếu đầu vào.';
    static ACCOUNT_EXISTS = 'Người dùng đã tồn tại.';
