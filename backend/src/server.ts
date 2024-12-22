@@ -29,6 +29,17 @@ app.use(express.json());
 initRoutes(app);
 // app.use(express.static('./public'));
 
+const testConnection = async () => {
+   try {
+      await database.authenticate();
+      console.log('Connection mysql has been established successfully.');
+   } catch (error) {
+      console.error('Unable to connect to the database:', error);
+   }
+};
+
+testConnection();
+
 /* create table to database */
 // (async () => {
 //    await database.sync();

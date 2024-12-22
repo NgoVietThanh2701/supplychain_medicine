@@ -32,9 +32,6 @@ const AutoCompleteMap = ({ setPayload, label }: any) => {
          if (place.geometry.viewport || place.geometry.location) {
             setPayload((prev: any) => ({ ...prev, latitude: place.geometry.location.lat() }));
             setPayload((prev: any) => ({ ...prev, longitude: place.geometry.location.lng() }));
-            const result = await apigetWeather(place.geometry.location.lat(), place.geometry.location.lng());
-            setPayload((prev: any) => ({ ...prev, temp: result.temp }));
-            setPayload((prev: any) => ({ ...prev, humidity: result.humidity }));
             setPayload((prev: any) => ({ ...prev, location: inputRef.current.value }));
          }
       })
